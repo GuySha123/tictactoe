@@ -1,0 +1,38 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 10px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    cursor: pointer;
+    border: 15px solid #000000; 
+}
+
+.cell:not(:empty) {
+    pointer-events: none;
+}
+
+#gameStatus {
+    margin: 20px 0;
+}
+
+#restartButton {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+}
