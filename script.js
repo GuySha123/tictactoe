@@ -2,6 +2,7 @@ const statusDisplay = document.getElementById('gameStatus');
 const restartButton = document.getElementById('restartButton');
 const cells = document.querySelectorAll('[data-cell]');
 let isPlayerTurn = true;
+let gameActive = true; // Added to track the game state
 
 const winningCombinations = [
     [0, 1, 2],
@@ -16,28 +17,25 @@ const winningCombinations = [
 
 function handleCellClick(e) {
     const cell = e.target;
-    if (!isPlayerTurn || cell.textContent !== '') {
-        return;
+    if (!isPlayerTurn || cell.textContent !== '' || !gameActive) {
+        return; // Check if it's player's turn, cell is empty, and game is active
     }
     makeMove(cell, 'X');
     if (endTurn('X')) {
         return; // Check if game has ended
     }
     isPlayerTurn = false;
-    setTimeout(computerMove, 500); // Delay computer's move to simulate thinking delay
+    setTimeout(computerMove, 500); // Delay computer's move
 }
 
 function computerMove() {
-    const availableCells = [...cells].filter(cell => cell.textContent === '');
-    if (availableCells.length === 0) {
-        return;
+    if (!gameActive) {
+        return; // Check if game is still active
     }
-
-    // Try to find a winning move or block the player
-    let moveFound = findBestMove('O') || findBestMove('X');
-    
-    // If no strategic move found, pick a random cell
-    if (!moveFound) {
+    // Computer's strategy to find best move or fallback to random
+    let moveMade = findBestMove('O') || findBestMove('X');
+    if (!moveMade) {
+        const availableCells = [...cells].filter(cell => cell.textContent === '');
         const randomCell = availableCells[Math.floor(Math.random() * availableCells.length)];
         makeMove(randomCell, 'O');
     }
@@ -51,11 +49,9 @@ function findBestMove(player) {
         cell.textContent = player; // Temporarily make the move
         if (checkWin(player)) {
             if (player === 'O') {
-                // It's a winning move for the computer
-                return true;
+                return true; // Winning move for the computer
             } else {
-                // Block the player's winning move
-                cell.textContent = 'O';
+                cell.textContent = 'O'; // Block the player's winning move
                 return true;
             }
         }
@@ -71,9 +67,11 @@ function makeMove(cell, player) {
 function endTurn(player) {
     if (checkWin(player)) {
         statusDisplay.textContent = `${player === 'X' ? 'Player' : 'Computer'} Wins!`;
+        gameActive = false; // Lock the game
         return true;
     } else if (checkTie()) {
         statusDisplay.textContent = 'Tie!';
+        gameActive = false; // Lock the game
         return true;
     }
     statusDisplay.textContent = `${player === 'X' ? "Computer's Turn" : "Player's Turn"}`;
@@ -95,6 +93,7 @@ function checkTie() {
 }
 
 function restartGame() {
+    gameActive = true; // Reactivate the game for a new round
     isPlayerTurn = true;
     statusDisplay.textContent = "Player's Turn";
     cells.forEach(cell => {
