@@ -6,6 +6,7 @@ body {
 }
 
 .board {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(3, 100px);
     gap: 10px;
@@ -20,7 +21,7 @@ body {
     align-items: center;
     font-size: 40px;
     cursor: pointer;
-    border: 15px solid #000000; 
+    border: 10px solid black;
 }
 
 .cell:not(:empty) {
@@ -35,4 +36,121 @@ body {
     margin-top: 20px;
     padding: 10px;
     font-size: 16px;
+}
+
+/* Win line styles */
+.horizontal::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    z-index: 10;
+    width: 324px;
+    height: 10px;
+    top: calc(33.33% - 5px);
+    left: 0;
+}
+
+.vertical::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    z-index: 10;
+    width: 10px;
+    height: 324px;
+    top: 0;
+    left: calc(33.33% - 5px);
+}
+
+.diagonal::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    z-index: 10;
+    width: 455px;
+    height: 10px;
+    top: calc(48% - 5px);
+    left: calc(50% - 227.5px);
+    transform: rotate(45deg);
+}
+
+.diagonal-1::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    z-index: 10;
+    width: 455px; /* Adjusted width to match the diagonal */
+    height: 10px;
+    top: calc(-10% - 5px + 220px); /* Adjusted top position */
+    left: calc(55% - 227.5px); /* Adjusted left position */
+    transform: rotate(-45deg); /* Adjusted rotation direction */
+}
+
+
+.horizontal-0::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    z-index: 10;
+    width: 340px; 
+    height: 10px;
+    top: calc(50% - 5px);
+    left: -34%;
+    transform: rotate(90deg);
+}
+.horizontal-1::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    z-index: 10;
+    width: 340px;
+    height: 10px;
+    top: calc(50% - 5px);
+    left: 0;
+    transform: rotate(90deg);
+}
+
+.horizontal-2::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    z-index: 10;
+    width: 340px; 
+    height: 10px;
+    top: calc(50% - 5px);
+    left: 34%;
+    transform: rotate(90deg);
+}
+
+.vertical-0::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    z-index: 10;
+    width: 315px; 
+    height: 10px;
+    top: 15%;
+    left: calc(5% - 5px);
+}
+
+
+.vertical-1::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    z-index: 10;
+    width: 315px; /* Adjusted width to match the diagonal */
+    height: 10px;
+    top: 50%;
+    left: calc(5% - 5px);
+}
+
+.vertical-2::after {
+    content: '';
+    position: absolute;
+    background-color: red;
+    z-index: 10;
+    width: 315px; 
+    height: 10px;
+    top: 82%;
+    left: calc(5% - 5px);
 }
